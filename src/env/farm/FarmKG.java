@@ -3,27 +3,22 @@ package farm;
 import cartago.Artifact;
 import cartago.OPERATION;
 import cartago.OpFeedbackParam;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 
 public class FarmKG extends Artifact {
@@ -48,10 +43,16 @@ public class FarmKG extends Artifact {
         String farmValue = null;
 
         // sets your variable name for the farm to be queried
-        String farmVariableName = "farm";
+        String farmVariableName = "farm-1";
 
         // constructs query
-        String queryStr = PREFIXES + "SELECT ?farm WHERE { ?" + farmVariableName + " a was:Farm. }";
+        String queryString = "SELECT ?farm WHERE {\n" +
+                "GRAPH <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#> {\n" +
+                "   bind (<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#"+farmVariableName+"> as ?farm)\n" +
+                "   ?farm a was:Farm.\n" +
+                "   }\n" +
+                "}";
+        String queryStr = PREFIXES + queryString;
 
         /* Example SPARQL query 
          * PREFIX was: <https://was-course.interactions.ics.unisg.ch/farm-ontology#>
@@ -135,8 +136,33 @@ public class FarmKG extends Artifact {
         // the variable where we will store the result to be returned to the agent
         Object[] sectionsValue = new Object[]{ "fakeSection1", "fakeSection2", "fakeSection3", "fakeSection4" };
 
+        String queryString = "SELECT ?section WHERE {\n" +
+                "GRAPH <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#> {\n" +
+                "   bind (<"+farm+"> as ?farm)\n" +
+                "   ?farm a was:Farm.\n" +
+                "   ?farm hmas:contains ?section.\n" +
+                "   ?section a was:Section. \n" +
+                " }\n" +
+                "}";
+        String queryStr = PREFIXES + queryString;
+
+        JsonArray farmBindings = executeQuery(queryStr);
+
+        JsonObject firstBinding = farmBindings.get(0).getAsJsonObject();
+        JsonArray farmBinding = firstBinding.getAsJsonArray("section");
+
+        final var list = new ArrayList<Object>();
+        for(int i = 0; i < 4; i++) {
+            JsonElement jsonElement = farmBinding.get(i);
+            JsonObject asJsonObject = jsonElement.getAsJsonObject();
+            String value = asJsonObject.getAsJsonPrimitive("value").getAsString();
+            list.add(value);
+        }
+
+
+
         // sets the value of interest to the OpFeedbackParam
-        sections.set(sectionsValue);
+        sections.set(list.toArray());
     }
 
     @OPERATION
@@ -144,17 +170,52 @@ public class FarmKG extends Artifact {
         // the variable where we will store the result to be returned to the agent
         Object[] coordinatesValue = new Object[]{ 0, 0, 1, 1 };
 
+        String queryString = "SELECT ?coordinates WHERE {\n" +
+                "GRAPH <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#> {\n" +
+                "   bind (<"+section+"> as ?section)\n" +
+                "   ?section a was:Section. \n" +
+                "   ?section was:hasCoordinates ?coordinates\n" +
+                " }\n" +
+                "}";
+        String queryStr = PREFIXES + queryString;
+
+        JsonArray farmBindings = executeQuery(queryStr);
+
+        JsonObject firstBinding = farmBindings.get(0).getAsJsonObject();
+
+        JsonObject tdBinding = firstBinding.getAsJsonObject("coordinates");
+        final var tdValue = tdBinding.getAsJsonPrimitive("value").getAsString();
+        String[] split = tdValue.split(",");
+
         // sets the value of interest to the OpFeedbackParam
-        coordinates.set(coordinatesValue);
+        Object[] t = Arrays.stream(split).map(Integer::getInteger).toArray();
+        coordinates.set(t);
     }
 
     @OPERATION 
     public void queryCropOfSection(String section, OpFeedbackParam<String> crop) {
         // the variable where we will store the result to be returned to the agent
         String cropValue = "fakeCrop";
+        Object[] coordinatesValue = new Object[]{ 0, 0, 1, 1 };
+
+        String queryString = "SELECT ?crop WHERE {\n" +
+                "GRAPH <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#> {\n" +
+                "   bind (<"+section+"> as ?section)\n" +
+                "   ?section a was:Section.\n" +
+                "   ?section hmas:contains ?crop.\n" +
+                " }\n" +
+                "}";
+        String queryStr = PREFIXES + queryString;
+
+        JsonArray farmBindings = executeQuery(queryStr);
+
+        JsonObject firstBinding = farmBindings.get(0).getAsJsonObject();
+
+        JsonObject tdBinding = firstBinding.getAsJsonObject("crop");
+        final var tdValue = tdBinding.getAsJsonPrimitive("value").getAsString();
 
         // sets the value of interest to the OpFeedbackParam
-        crop.set(cropValue);
+        crop.set(tdValue);
     }
 
     @OPERATION
@@ -162,8 +223,26 @@ public class FarmKG extends Artifact {
         // the variable where we will store the result to be returned to the agent
         Integer moistureLevelValue = 120;
 
+        String queryString = "SELECT ?moisture WHERE {\n" +
+                "GRAPH <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#> {\n" +
+                "   bind (<"+ crop+"> as ?crop)\n" +
+                "   ?crop was:hasSoilmoisture ?moisture. \n" +
+                " }\n" +
+                "}";
+        String queryStr = PREFIXES + queryString;
+
+        JsonArray farmBindings = executeQuery(queryStr);
+
+        JsonObject firstBinding = farmBindings.get(0).getAsJsonObject();
+
+        JsonObject tdBinding = firstBinding.getAsJsonObject("moisture");
+        final var tdValue = tdBinding.getAsJsonPrimitive("value").getAsString();
+
         // sets the value of interest to the OpFeedbackParam
-        level.set(moistureLevelValue);
+        final var value = Integer.valueOf(tdValue);
+
+        // sets the value of interest to the OpFeedbackParam
+        level.set(value);
     }
 
     private JsonArray executeQuery(String queryStr) {
