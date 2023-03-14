@@ -23,8 +23,8 @@ import java.util.Base64;
 
 public class FarmKG extends Artifact {
 
-    private static final String USERNAME = "danai";
-    private static final String PASSWORD = "was";
+    private static final String USERNAME = "was-students";
+    private static final String PASSWORD = "knowledge-representation-is-fun";
 
     private String repoLocation;
 
