@@ -1,60 +1,366 @@
-@prefix ex: <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-danai#> .
-@prefix was: <https://was-course.interactions.ics.unisg.ch/farm-ontology#> .
-@prefix hmas: <https://purl.org/hmas/> .
-@prefix td: <https://www.w3.org/2019/wot/td#> .
-@prefix wotsec: <https://www.w3.org/2019/wot/security#> .
-@prefix htv: <http://www.w3.org/2011/http#> .
+@prefix : <https://was-course.interactions.ics.unisg.ch/farm-ontology#> .
+@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix hctl: <https://www.w3.org/2019/wot/hypermedia#> .
-@prefix js: <https://www.w3.org/2019/wot/json-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix hmas: <https://purl.org/hmas/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+@prefix js: <https://www.w3.org/2019/wot/json-schema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix htv: <http://www.w3.org/2011/http#> .
+@prefix td: <https://www.w3.org/2019/wot/td#> .
+@prefix path: <http://www.ontotext.com/path#> .
+@prefix ex: <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-danai#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix wotsec: <https://www.w3.org/2019/wot/security#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
 
-ex:farm-17c04810-567a-4236-b310-611bb4fd2a8c a was:Farm;
-  hmas:contains ex:tractor-34541705-7798-4a16-b76b-5fec2861e077,
-    ex:tractor-ae039570-396e-424f-9008-2142c3201b73 .
+<https://was-course.interactions.ics.unisg.ch/farm-ontology#> a owl:Ontology;
+  rdfs:comment "An ontology for representing knowledge useful for the management of farms."@en;
+  vann:preferredNamespacePrefix "was" .
 
-ex:tractor-34541705-7798-4a16-b76b-5fec2861e077 a td:Thing, was:Tractor;
-  hmas:hasProfile <https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/tractor1.ttl> ;
+vann:preferredNamespacePrefix a owl:AnnotationProperty .
+
+:Farm a owl:Class;
+  rdfs:subClassOf _:node251, _:node252, _:genid-726d018e691a48719029081dd38502e8-node198,
+    _:genid-726d018e691a48719029081dd38502e8-node199;
+  rdfs:comment "A plot of land devoted to the growing of crops."@en .
+
+:hasActionAffordance a owl:ObjectProperty;
+  rdfs:subPropertyOf owl:topObjectProperty;
+  rdfs:range :Affordance .
+
+:Affordance a owl:Class .
+
+:hasCoordinates a owl:ObjectProperty;
+  rdfs:subPropertyOf owl:topObjectProperty;
+  rdfs:domain :Section .
+
+:Section a owl:Class;
+  rdfs:subClassOf _:node261, _:node262, _:genid-726d018e691a48719029081dd38502e8-node208,
+    _:genid-726d018e691a48719029081dd38502e8-node209 .
+
+:hasCrop a owl:ObjectProperty;
+  rdfs:subPropertyOf owl:topObjectProperty;
+  rdfs:domain :Section;
+  rdfs:range :Crop .
+
+:Crop a owl:Class;
+  rdfs:subClassOf _:node250, _:genid-726d018e691a48719029081dd38502e8-node197 .
+
+:hasSections a owl:ObjectProperty;
+  rdfs:subPropertyOf owl:topObjectProperty;
+  rdfs:domain :Farm;
+  rdfs:range :Coordinates .
+
+:Coordinates a owl:Class;
+  rdfs:comment "A set of 4 coordinates [X1,Y1,X2,Y2] that define the opposite corners of a square section at points [X1,Y1] and [X2,Y2]."@en .
+
+:hasSoilMoisture a owl:ObjectProperty;
+  rdfs:subPropertyOf owl:topObjectProperty;
+  rdfs:domain :SoilMoisture .
+
+:SoilMoisture a owl:Class;
+  rdfs:comment "The level of moisture in soil."@en .
+
+:hasTractors a owl:ObjectProperty;
+  rdfs:subPropertyOf owl:topObjectProperty;
+  rdfs:range :Tractor .
+
+:Tractor a owl:Class;
+  rdfs:comment "An automotive vehicle that offers affordances to agents for managing a farm."@en .
+
+:Corn a owl:Class, owl:NamedIndividual;
+  owl:equivalentClass _:node246, _:genid-726d018e691a48719029081dd38502e8-node193;
+  owl:disjointWith :Wheat .
+
+:Wheat a owl:Class, owl:NamedIndividual;
+  owl:equivalentClass _:node263, _:genid-726d018e691a48719029081dd38502e8-node210 .
+
+:IrrigateAffordance a owl:Class;
+  rdfs:subClassOf :Affordance;
+  rdfs:comment "An affordance offerred by the environment to agents for irrigating the soil."@en .
+
+:IrrigationTractor a owl:Class;
+  owl:equivalentClass _:node253, _:genid-726d018e691a48719029081dd38502e8-node200 .
+
+:ReadSoilMoistureAffordance a owl:Class;
+  rdfs:subClassOf :Affordance;
+  rdfs:comment "An affordance offerred by the environment to agents for reading the moisture level of soil."@en .
+
+:ReaderTractor a owl:Class;
+  owl:equivalentClass _:node257, _:genid-726d018e691a48719029081dd38502e8-node204 .
+
+:X1 a owl:NamedIndividual .
+
+:X2 a owl:NamedIndividual .
+
+:Y1 a owl:NamedIndividual .
+
+:Y2 a owl:NamedIndividual .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#farm-1> a
+    :Farm;
+  hmas:contains <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#tractor-reader>,
+    <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#tractor-irrigate>,
+    <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-1>,
+    <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-2>,
+    <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-3>,
+    <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-4> .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#tractor-reader>
+  a :Tractor, td:Thing;
+  hmas:hasProfile <https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/tractor1.ttl>;
   td:title "A tractor that can be used for monitoring the moisture level of soil in a farm.";
-  td:hasSecurityConfiguration [ a wotsec:NoSecurityScheme];
+  td:hasSecurityConfiguration _:genid-726d018e691a48719029081dd38502e8-node214;
   td:hasBase <http://localhost:1080/api/tractors/1/>;
-  td:hasActionAffordance [ a td:ActionAffordance, was:ReadSoilMoistureAffordance;
-    td:name "Read Moisture Level";
-    td:hasForm [
-      htv:methodName "GET";
-      hctl:hasTarget <http://localhost:1080/api/tractors/1/moisture>;
-      hctl:forContentType "application/json";
-      hctl:hasOperationType td:invokeAction
-    ];
-    td:hasInputSchema [ a js:ArraySchema, was:Coordinates;
-      js:minItems "4"^^xsd:int;
-      js:maxItems "4"^^xsd:int;
-      js:items [ a js:IntegerSchema;
-        js:minimum "0"^^xsd:int;
-        js:maximum "2"^^xsd:int
-      ]
-    ];
-    td:hasOutputSchema [ a js:IntegerSchema, was:SoilMoisture ]
-  ] .
+  td:hasActionAffordance _:genid-726d018e691a48719029081dd38502e8-node215 .
 
-ex:tractor-ae039570-396e-424f-9008-2142c3201b73 a td:Thing, was:Tractor;
-  hmas:hasProfile <https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/tractor2.ttl> ;
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#tractor-irrigate>
+  a :Tractor, td:Thing;
+  hmas:hasProfile <https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/tractor2.ttl>;
   td:title "A tractor that can be used for irrigating sections in a farm.";
-  td:hasSecurityConfiguration [ a wotsec:NoSecurityScheme ];
+  td:hasSecurityConfiguration _:genid-726d018e691a48719029081dd38502e8-node220;
   td:hasBase <http://localhost:1080/api/tractors/2/>;
-  td:hasActionAffordance [ a td:ActionAffordance, was:IrrigateAffordance;
-    td:name "Irrigate";
-    td:hasForm [
-      htv:methodName "PUT";
-      hctl:hasTarget <http://localhost:1080/api/tractors/2/sprayer>;
-      hctl:forContentType "application/json";
-      hctl:hasOperationType td:invokeAction
-    ];
-    td:hasInputSchema [ a js:ArraySchema, was:Coordinates;
-      js:minItems "4"^^xsd:int;
-      js:maxItems "4"^^xsd:int;
-      js:items [ a js:IntegerSchema;
-        js:minimum "0"^^xsd:int;
-        js:maximum "2"^^xsd:int
-      ]
-    ]
-  ] .
+  td:hasActionAffordance _:genid-726d018e691a48719029081dd38502e8-node221 .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-1>
+  a :Section;
+  :hasCoordinates "0,0,1,1";
+  hmas:contains <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-1> .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-2>
+  a :Section;
+  :hasCoordinates "1,0,2,1";
+  hmas:contains <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-2> .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-3>
+  a :Section;
+  :hasCoordinates "0,1,1,2";
+  hmas:contains <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-3> .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-4>
+  a :Section;
+  :hasCoordinates "1,1,2,2";
+  hmas:contains <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-4> .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-1> a
+    :Wheat;
+  :hasCrop :Wheat;
+  :hasSoilmoisture "120" .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-2> a
+    :Wheat;
+  :hasCrop :Wheat;
+  :hasSoilmoisture "120" .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-3> a
+    :Corn;
+  :hasCrop :Corn;
+  :hasSoilmoisture "80" .
+
+<https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-4> a
+    :Corn;
+  :hasCrop :Corn;
+  :hasSoilmoisture "80" .
+
+_:node246 a owl:Class;
+  owl:intersectionOf _:node247 .
+
+_:node249 a owl:Restriction;
+  owl:onProperty :hasSoilMoisture;
+  owl:minQualifiedCardinality "80"^^xsd:nonNegativeInteger;
+  owl:onClass :SoilMoisture .
+
+_:node250 a owl:Restriction;
+  owl:onProperty :hasSoilMoisture;
+  owl:someValuesFrom :SoilMoisture .
+
+_:node251 a owl:Restriction;
+  owl:onProperty :hasSections;
+  owl:someValuesFrom :Section .
+
+_:node252 a owl:Restriction;
+  owl:onProperty :hasTractors;
+  owl:someValuesFrom :Tractor .
+
+_:node253 a owl:Class;
+  owl:intersectionOf _:node254 .
+
+_:node256 a owl:Restriction;
+  owl:onProperty :hasActionAffordance;
+  owl:allValuesFrom :IrrigateAffordance .
+
+_:node257 a owl:Class;
+  owl:intersectionOf _:node258 .
+
+_:node260 a owl:Restriction;
+  owl:onProperty :hasActionAffordance;
+  owl:allValuesFrom :ReadSoilMoistureAffordance .
+
+_:node261 a owl:Restriction;
+  owl:onProperty :hasCrop;
+  owl:allValuesFrom :Crop .
+
+_:node262 a owl:Restriction;
+  owl:onProperty :hasCoordinates;
+  owl:onClass :Coordinates;
+  owl:qualifiedCardinality "4"^^xsd:nonNegativeInteger .
+
+_:node263 a owl:Class;
+  owl:intersectionOf _:node264 .
+
+_:node266 a owl:Restriction;
+  owl:onProperty :hasSoilMoisture;
+  owl:minQualifiedCardinality "120"^^xsd:nonNegativeInteger;
+  owl:onClass :SoilMoisture .
+
+_:genid-726d018e691a48719029081dd38502e8-node198 a owl:Restriction;
+  owl:onProperty :hasSections;
+  owl:someValuesFrom :Section .
+
+_:genid-726d018e691a48719029081dd38502e8-node199 a owl:Restriction;
+  owl:onProperty :hasTractors;
+  owl:someValuesFrom :Tractor .
+
+_:genid-726d018e691a48719029081dd38502e8-node208 a owl:Restriction;
+  owl:onProperty :hasCrop;
+  owl:allValuesFrom :Crop .
+
+_:genid-726d018e691a48719029081dd38502e8-node209 a owl:Restriction;
+  owl:onProperty :hasCoordinates;
+  owl:onClass :Coordinates;
+  owl:qualifiedCardinality "4"^^xsd:nonNegativeInteger .
+
+_:genid-726d018e691a48719029081dd38502e8-node197 a owl:Restriction;
+  owl:onProperty :hasSoilMoisture;
+  owl:someValuesFrom :SoilMoisture .
+
+_:genid-726d018e691a48719029081dd38502e8-node193 a owl:Class;
+  owl:intersectionOf _:genid-726d018e691a48719029081dd38502e8-node194 .
+
+_:genid-726d018e691a48719029081dd38502e8-node210 a owl:Class;
+  owl:intersectionOf _:genid-726d018e691a48719029081dd38502e8-node211 .
+
+_:genid-726d018e691a48719029081dd38502e8-node200 a owl:Class;
+  owl:intersectionOf _:genid-726d018e691a48719029081dd38502e8-node201 .
+
+_:genid-726d018e691a48719029081dd38502e8-node204 a owl:Class;
+  owl:intersectionOf _:genid-726d018e691a48719029081dd38502e8-node205 .
+
+_:genid-726d018e691a48719029081dd38502e8-node214 a wotsec:NoSecurityScheme .
+
+_:genid-726d018e691a48719029081dd38502e8-node215 a :ReadSoilMoistureAffordance, td:ActionAffordance;
+  td:name "Read Moisture Level";
+  td:hasForm _:genid-726d018e691a48719029081dd38502e8-node216;
+  td:hasInputSchema _:genid-726d018e691a48719029081dd38502e8-node217;
+  td:hasOutputSchema _:genid-726d018e691a48719029081dd38502e8-node219 .
+
+_:genid-726d018e691a48719029081dd38502e8-node220 a wotsec:NoSecurityScheme .
+
+_:genid-726d018e691a48719029081dd38502e8-node221 a :IrrigateAffordance, td:ActionAffordance;
+  td:name "Irrigate";
+  td:hasForm _:genid-726d018e691a48719029081dd38502e8-node222;
+  td:hasInputSchema _:genid-726d018e691a48719029081dd38502e8-node223 .
+
+_:genid-726d018e691a48719029081dd38502e8-node196 a owl:Restriction;
+  owl:onProperty :hasSoilMoisture;
+  owl:minQualifiedCardinality "80"^^xsd:nonNegativeInteger;
+  owl:onClass :SoilMoisture .
+
+_:genid-726d018e691a48719029081dd38502e8-node203 a owl:Restriction;
+  owl:onProperty :hasActionAffordance;
+  owl:allValuesFrom :IrrigateAffordance .
+
+_:genid-726d018e691a48719029081dd38502e8-node207 a owl:Restriction;
+  owl:onProperty :hasActionAffordance;
+  owl:allValuesFrom :ReadSoilMoistureAffordance .
+
+_:genid-726d018e691a48719029081dd38502e8-node213 a owl:Restriction;
+  owl:onProperty :hasSoilMoisture;
+  owl:minQualifiedCardinality "120"^^xsd:nonNegativeInteger;
+  owl:onClass :SoilMoisture .
+
+_:genid-726d018e691a48719029081dd38502e8-node217 a :Coordinates, js:ArraySchema;
+  js:minItems "4"^^xsd:int;
+  js:maxItems "4"^^xsd:int;
+  js:items _:genid-726d018e691a48719029081dd38502e8-node218 .
+
+_:genid-726d018e691a48719029081dd38502e8-node219 a :SoilMoisture, js:IntegerSchema .
+
+_:genid-726d018e691a48719029081dd38502e8-node218 a js:IntegerSchema;
+  js:minimum "0"^^xsd:int;
+  js:maximum "2"^^xsd:int .
+
+_:genid-726d018e691a48719029081dd38502e8-node223 a :Coordinates, js:ArraySchema;
+  js:minItems "4"^^xsd:int;
+  js:maxItems "4"^^xsd:int;
+  js:items _:genid-726d018e691a48719029081dd38502e8-node224 .
+
+_:genid-726d018e691a48719029081dd38502e8-node224 a js:IntegerSchema;
+  js:minimum "0"^^xsd:int;
+  js:maximum "2"^^xsd:int .
+
+owl:topObjectProperty rdfs:domain :Farm .
+
+_:node247 rdf:first :Crop;
+  rdf:rest _:node248 .
+
+_:node248 rdf:first _:node249;
+  rdf:rest rdf:nil .
+
+_:node254 rdf:first :Tractor;
+  rdf:rest _:node255 .
+
+_:node255 rdf:first _:node256;
+  rdf:rest rdf:nil .
+
+_:node258 rdf:first :Tractor;
+  rdf:rest _:node259 .
+
+_:node259 rdf:first _:node260;
+  rdf:rest rdf:nil .
+
+_:node264 rdf:first :Crop;
+  rdf:rest _:node265 .
+
+_:node265 rdf:first _:node266;
+  rdf:rest rdf:nil .
+
+_:genid-726d018e691a48719029081dd38502e8-node194 rdf:first :Crop;
+  rdf:rest _:genid-726d018e691a48719029081dd38502e8-node195 .
+
+_:genid-726d018e691a48719029081dd38502e8-node201 rdf:first :Tractor;
+  rdf:rest _:genid-726d018e691a48719029081dd38502e8-node202 .
+
+_:genid-726d018e691a48719029081dd38502e8-node205 rdf:first :Tractor;
+  rdf:rest _:genid-726d018e691a48719029081dd38502e8-node206 .
+
+_:genid-726d018e691a48719029081dd38502e8-node211 rdf:first :Crop;
+  rdf:rest _:genid-726d018e691a48719029081dd38502e8-node212 .
+
+_:genid-726d018e691a48719029081dd38502e8-node195 rdf:first _:genid-726d018e691a48719029081dd38502e8-node196;
+  rdf:rest rdf:nil .
+
+_:genid-726d018e691a48719029081dd38502e8-node202 rdf:first _:genid-726d018e691a48719029081dd38502e8-node203;
+  rdf:rest rdf:nil .
+
+_:genid-726d018e691a48719029081dd38502e8-node206 rdf:first _:genid-726d018e691a48719029081dd38502e8-node207;
+  rdf:rest rdf:nil .
+
+_:genid-726d018e691a48719029081dd38502e8-node212 rdf:first _:genid-726d018e691a48719029081dd38502e8-node213;
+  rdf:rest rdf:nil .
+
+_:genid-726d018e691a48719029081dd38502e8-node216 htv:methodName "GET";
+  hctl:hasTarget <http://localhost:1080/api/tractors/1/moisture>;
+  hctl:forContentType "application/json";
+  hctl:hasOperationType td:invokeAction .
+
+_:genid-726d018e691a48719029081dd38502e8-node222 htv:methodName "PUT";
+  hctl:hasTarget <http://localhost:1080/api/tractors/2/sprayer>;
+  hctl:forContentType "application/json";
+  hctl:hasOperationType td:invokeAction .
