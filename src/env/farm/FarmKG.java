@@ -186,7 +186,7 @@ public class FarmKG extends Artifact {
         String[] split = tdValue.split(",");
 
         // sets the value of interest to the OpFeedbackParam
-        Object[] t = Arrays.stream(split).map(Integer::getInteger).toArray();
+        Object[] t = Arrays.stream(split).map(Integer::parseInt).toArray();
         coordinates.set(t);
     }
 
@@ -237,7 +237,7 @@ public class FarmKG extends Artifact {
         final var tdValue = tdBinding.getAsJsonPrimitive("value").getAsString();
 
         // sets the value of interest to the OpFeedbackParam
-        final var value = Integer.valueOf(tdValue);
+        final var value = Integer.parseInt(tdValue);
 
         // sets the value of interest to the OpFeedbackParam
         level.set(value);
