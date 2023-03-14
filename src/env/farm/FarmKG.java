@@ -148,14 +148,12 @@ public class FarmKG extends Artifact {
 
         JsonArray farmBindings = executeQuery(queryStr);
 
-        JsonObject firstBinding = farmBindings.get(0).getAsJsonObject();
-        JsonArray farmBinding = firstBinding.getAsJsonArray("section");
 
         final var list = new ArrayList<Object>();
         for(int i = 0; i < 4; i++) {
-            JsonElement jsonElement = farmBinding.get(i);
-            JsonObject asJsonObject = jsonElement.getAsJsonObject();
-            String value = asJsonObject.getAsJsonPrimitive("value").getAsString();
+            JsonObject jsonElement = farmBindings.get(i).getAsJsonObject();
+            JsonObject tdBinding = jsonElement.getAsJsonObject("section");
+            String value = tdBinding.getAsJsonPrimitive("value").getAsString();
             list.add(value);
         }
 
