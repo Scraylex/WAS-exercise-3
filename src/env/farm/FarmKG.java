@@ -75,7 +75,7 @@ public class FarmKG extends Artifact {
 
         // handles result as JSON object
         JsonObject firstBinding = farmBindings.get(0).getAsJsonObject();
-        JsonObject farmBinding = firstBinding.getAsJsonObject(farmVariableName);
+        JsonObject farmBinding = firstBinding.getAsJsonObject("farm");
         farmValue = farmBinding.getAsJsonPrimitive("value").getAsString();
 
         // sets the value of interest to the OpFeedbackParam
