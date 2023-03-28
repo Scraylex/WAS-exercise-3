@@ -1,0 +1,23 @@
+PREFIX was: <https://was-course.interactions.ics.unisg.ch/farm-ontology#>
+
+PREFIX hmas: <https://purl.org/hmas/>
+INSERT {
+    GRAPH <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#>
+    {
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-1> hmas:contains ?crop1.
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-2> hmas:contains ?crop2.
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-3> hmas:contains ?crop3.
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-4> hmas:contains ?crop4.
+
+    	
+        ?crop1 a was:Crop.
+        ?crop2 a was:Crop.
+        ?crop3 a was:Crop.
+        ?crop4 a was:Crop.
+    }.
+} WHERE {
+  	BIND(IRI("https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-1") AS ?crop1)
+    BIND(IRI("https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-2") AS ?crop2)
+    BIND(IRI("https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-3") AS ?crop3)
+  	BIND(IRI("https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-4") AS ?crop4)
+}

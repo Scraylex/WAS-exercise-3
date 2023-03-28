@@ -1,0 +1,11 @@
+PREFIX was: <https://was-course.interactions.ics.unisg.ch/farm-ontology#>
+
+INSERT Data {
+    GRAPH <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#>
+    {
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-1> was:hasCoordinates "0,0,1,1".
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-2> was:hasCoordinates "0,1,2,1".
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-3> was:hasCoordinates "0,1,1,2".
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-4> was:hasCoordinates "1,1,2,2".
+    }.
+}

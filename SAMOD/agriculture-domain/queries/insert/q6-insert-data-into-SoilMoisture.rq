@@ -1,0 +1,16 @@
+PREFIX was: <https://was-course.interactions.ics.unisg.ch/farm-ontology#>
+
+INSERT Data {
+    GRAPH <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#>
+    {
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-1> was:hasSoilmoisture "120".
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-2> was:hasSoilmoisture "120".
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-3> was:hasSoilmoisture "80".
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-4> was:hasSoilmoisture "80".
+        
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-1> was:hasCrop was:Wheat.
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-2> was:hasCrop was:Wheat.
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-3> was:hasCrop was:Corn.
+        <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#crop-4> was:hasCrop was:Corn.
+    }.
+}

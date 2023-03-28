@@ -1,0 +1,25 @@
+PREFIX was: <https://was-course.interactions.ics.unisg.ch/farm-ontology#>
+
+PREFIX hmas: <https://purl.org/hmas/>
+INSERT {
+    GRAPH <https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#>
+    {
+        ?farm hmas:contains ?section1.
+        ?farm hmas:contains ?section2.
+		?farm hmas:contains ?section3.
+        ?farm hmas:contains ?section4.
+        
+        ?section1 a was:Section.
+        ?section2 a was:Section.
+        ?section3 a was:Section.18.03.2023 23:45	￼
+Start
+
+        ?section4 a was:Section.
+    }.
+} WHERE {
+	?farm a was:Farm.
+  	BIND(IRI("https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-1") AS ?section1)
+    BIND(IRI("https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-2") AS ?section2)
+    BIND(IRI("https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-3") AS ?section3)
+  	BIND(IRI("https://sandbox-graphdb.interactions.ics.unisg.ch/was-exercise-3-lukas#section-4") AS ?section4)
+}
